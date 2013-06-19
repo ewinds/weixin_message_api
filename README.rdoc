@@ -1,0 +1,3 @@
+== Wechat message interface with rails
+
+
