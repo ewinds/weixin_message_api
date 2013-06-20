@@ -7,20 +7,24 @@ end
 require 'cucumber/formatter/unicode'
 $:.unshift(File.dirname(__FILE__) + '/../../lib')
 
+Before do
+  @message = AccessMessage.new
+end
+
 Given /GET请求中参数signature是 (.*)/ do |param|
-  @signature = param
+  @message.signature = param
 end
 
 Given /GET请求中参数timestamp是 (.*)/ do |param|
-  @timestamp = param
+  @message.timestamp = param
 end
 
 Given /GET请求中参数nonce是 (.*)/ do |param|
-  @nonce = param
+  @message.nonce = param
 end
 
 Given /GET请求中参数echostr是 (.*)/ do |param|
-  @echostr = param
+  @message.echostr = param
 end
 
 Given /消息接口持有token是 (.*)/ do |param|
@@ -28,7 +32,7 @@ Given /消息接口持有token是 (.*)/ do |param|
 end
 
 When /收到GET请求/ do
-  visit "/wenxin/message?signature=#{@signature}&timestamp=#{@timestamp}&nonce=#{@nonce}&echostr=#{@echostr}"
+  visit "/wenxin/message?signature=#{@message.signature}&timestamp=#{@message.timestamp}&nonce=#{@message.nonce}&echostr=#{@message.echostr}"
 end
 
 Then /页面显示 (.*)/ do |param|

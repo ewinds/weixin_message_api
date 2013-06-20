@@ -1,23 +1,28 @@
-require 'digest/sha1'
-
 class WenxinController < ApplicationController
-  def show
-    signature = params[:signature]
-    timestamp = params[:timestamp]
-    nonce = params[:nonce]
-    echostr = params[:echostr]
-    token = ENV['WENXIN_TOKEN'].dup
+  def access
+    access_message = AccessMessage.new(params)
 
-    array = [token, timestamp, nonce]
-    tmp_str = Digest::SHA1.hexdigest array.sort.join
-
-    if tmp_str == signature
-      render :text => echostr
+    if access_message.valid? && access_message.is_valid?
+      render :text => access_message.echostr
     else
-      render :nothing => true
+      render :text => "Access deny"
     end
   end
 
-  def create
+  def push
+    begin
+      push_message = TextMessage.parse_and_create params
+      @reply_message = TextMessage.new :to_user_name => push_message.from_user_name,
+                                       :from_user_name => push_message.to_user_name,
+                                       :message_type => "text",
+                                       :content => "this is a reply for: #{push_message.content}",
+                                       :function_flag => "0"
+      output_string = @reply_message.to_response_xml
+      Rails.logger.info "xml => #{output_string}"
+      render :text => output_string
+    rescue Exception => exc
+      render :text => exc.message
+    end
+
   end
 end

@@ -1,6 +1,6 @@
 Wenxin::Application.routes.draw do
-  get "wenxin/message" => 'wenxin#show'
-  post "wenxin/message" => 'wenxin#create'
+  get "wenxin/message" => 'wenxin#access'
+  post "wenxin/message" => 'wenxin#push'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

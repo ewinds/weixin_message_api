@@ -1,4 +1,4 @@
-source 'http://ruby.taobao.org'
+source 'http://mirrors.tuna.tsinghua.edu.cn/rubygems'
 
 gem 'rails', '3.2.13'
 
@@ -6,7 +6,8 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-
+gem "le", "~> 2.1.7"
+gem "thin", "~> 1.5.1"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -22,14 +23,16 @@ end
 
 gem 'jquery-rails'
 gem "figaro"
+gem "active_attr", "~> 0.8.2"
 
 group :development, :test do
   gem 'rspec-rails'
   gem "factory_girl_rails"
+  gem "better_errors", "~> 0.9.0"
 end
 
 group :test do
-  gem "cucumber-rails", :require => false
+  gem "cucumber-rails", "~> 1.3.1", :require => false
   gem "capybara"
   gem "database_cleaner"
   gem "email_spec"
