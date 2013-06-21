@@ -1,14 +1,14 @@
 require 'builder/xmlmarkup'
 
-class TextMessage < PushMessage
+class TextPushMessage < PushMessage
   attr_accessor :content
-  validates :content, :presence => true
+  validates_presence_of :content
 
   def self.parse!(hash, parameters)
-    hash.merge(:content => parameters['Content'])
+    hash.merge!(:content => parameters['Content'])
   end
 
-  def to_response_xml
+  def response_to_xml
     doc = Builder::XmlMarkup.new(:target => out_string = "", :indent => 0)
     doc.xml {
       doc.ToUserName { doc.cdata!(to_user_name) }
@@ -20,5 +20,4 @@ class TextMessage < PushMessage
     }
     out_string
   end
-
 end

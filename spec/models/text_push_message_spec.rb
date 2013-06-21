@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TextMessage do
+describe TextPushMessage do
 
   before(:each) do
     @parameters = {"xml" =>
@@ -25,7 +25,7 @@ describe TextMessage do
 
   describe "receive text message" do
     it "should create a new instance given a valid xml" do
-      text_message = TextMessage.parse_and_create(@parameters)
+      text_message = PushMessage.parse_and_create(@parameters)
       text_message.should be_valid
       text_message.to_user_name.should eq("gh_43ae8ce8965f")
       text_message.from_user_name.should eq("o-yiqjpzPNENWiC1iC4cdyWqKAV4")
@@ -38,8 +38,8 @@ describe TextMessage do
 
   describe "reply text message" do
     it "should create a xml string given params" do
-      reply_text_message = TextMessage.new(@attr)
-      xml_string = reply_text_message.to_response_xml
+      reply_text_message = TextPushMessage.new(@attr)
+      xml_string = reply_text_message.response_to_xml
       xml_string.should match /^<xml>.*<\/xml>$/i
     end
   end
